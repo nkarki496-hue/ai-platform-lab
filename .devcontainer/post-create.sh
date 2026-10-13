@@ -8,6 +8,13 @@ curl -sSL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_L
 sudo mv /tmp/eksctl /usr/local/bin/
 eksctl version
 
+
+echo "==> Installing kind (local Kubernetes in Docker)"
+curl -sSLo /tmp/kind "https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64"
+chmod +x /tmp/kind
+sudo mv /tmp/kind /usr/local/bin/kind
+kind version
+
 echo "==> Installing k9s (terminal UI for Kubernetes)"
 curl -sSL "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz" \
   | tar xz -C /tmp k9s
