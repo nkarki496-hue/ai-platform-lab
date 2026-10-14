@@ -1,0 +1,14 @@
+# A Role is namespaced: it only grants access inside the namespace it lives in.
+# (A ClusterRole is the cluster-wide equivalent.)
+#
+# Note what is NOT here: no secrets, no create/update/delete, no other
+# namespaces. RBAC is deny-by-default — anything not granted is refused.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+  namespace: demo
+rules:
+  - apiGroups: [""]              # "" is the core API group (pods, services, secrets...)
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
