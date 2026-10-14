@@ -47,18 +47,20 @@ A small agent built from first principles rather than a framework, so the mechan
 
 ## Running this yourself
 
-Open in a GitHub Codespace. The devcontainer installs the AWS CLI, kubectl, Helm,
-Terraform, eksctl, k9s and Python 3.11.
+Open in a GitHub Codespace — the devcontainer installs kubectl, Helm, Terraform, kind,
+k9s, the AWS CLI and Python 3.11 automatically.
+
+See **[SETUP.md](SETUP.md)** for how the environment builds itself, what kind is and why
+these labs use it, how to create and destroy the local cluster, and the cost notes.
 
 ```bash
-aws sts get-caller-identity     # confirm credentials
-cd 01-eks-security && cat NOTES.md
+kind version && kubectl version --client && docker ps
+cd 01-eks-security/kind && cat README.md
 ```
 
-AWS credentials are supplied as Codespaces secrets and are never committed.
-
-> **Cost note:** an EKS cluster is roughly $0.10/hour for the control plane plus node costs.
-> Clusters here are created and destroyed per session.
+The Kubernetes-side work runs on a local kind cluster at no cost. Only the AWS-specific
+controls and the Bedrock labs need a real AWS account; credentials for those are supplied
+as Codespaces secrets and are never committed.
 
 ---
 
