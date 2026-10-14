@@ -1,26 +1,20 @@
-# A 3-node cluster: one control plane, two workers.
-# Two workers so you can drain one and watch pods reschedule.
+# Three nodes: one control plane, two workers.
+#
+# Two workers (not one) so a node can be cordoned and drained while pods
+# still have somewhere to reschedule — which is what makes Pod Disruption
+# Budget testing meaningful.
+#
+# The default CNI is disabled on purpose. kind's built-in kindnet accepts
+# NetworkPolicy objects but does not enforce them, so every policy test
+# would pass whether the policy worked or not. Calico is installed after
+# cluster creation so enforcement is real.
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 name: seclab
 nodes:
   - role: control-plane
-    kubeadmConfigPatches:
-      # Expose the API server audit log settings later in the lab
-      - |
-        kind: ClusterConfiguration
-        apiServer:
-          extraArgs:
-            audit-log-path: /var/log/kubernetes/audit.log
-            audit-policy-file: /etc/kubernetes/policies/audit-policy.yaml
-    extraMounts:
-      - hostPath: ./audit
-        containerPath: /etc/kubernetes/policies
-      - hostPath: ./audit-logs
-        containerPath: /var/log/kubernetes
   - role: worker
   - role: worker
 networking:
-  # Disable the default CNI so we can install Calico and get real NetworkPolicy
   disableDefaultCNI: true
   podSubnet: "192.168.0.0/16"

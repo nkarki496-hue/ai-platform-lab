@@ -11,10 +11,13 @@ not enforce NetworkPolicy, which would make the network policy exercises meaning
 
 ```bash
 cd 01-eks-security/kind
-mkdir -p audit audit-logs
 kind create cluster --config kind-cluster.yaml
 kubectl get nodes          # all three will show NotReady until the CNI is installed
 ```
+
+Three nodes rather than two: with a second worker, a node can be cordoned and drained
+while pods still have somewhere to reschedule, which is what makes Pod Disruption Budget
+testing meaningful.
 
 ## Install Calico (needed for NetworkPolicy enforcement)
 
